@@ -7,9 +7,23 @@ h2{
   padding-top: 0;
 }
 
+.wrapper1col {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
+}
 .wrapper2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
+}
+.wrapper3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
   background-color: #fff;
   color: #444;

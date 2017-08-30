@@ -20,20 +20,39 @@ const CurrentTemperatureValue = (temperature, scale) => {
             return reaumur(temperature)
         case 'F':
             return farenheit(temperature)
+        default:
+            return '?'
     }
     return '?'
 }
 
 
 const CurrentTemperatureCurrentScale = ({temperature, scale}) =>
-    <div className="box">
+    <div>
         <h2>Current Temperature : {CurrentTemperatureValue(temperature, scale)} {scale}</h2>
     </div>
 
+const GridMarker = ({i}) =>
+    <span key={i} className="slider-grid-cell">
+        {i}
+    </span>
 
-
+const TemperatureSlider = ({SliderSettings}) => {
+    var rows = [];
+    for (let i = 0; i < 10; i++) {
+        rows.push(<GridMarker i={i} />)
+    }
+    return (
+    <div >
+    <div className="slider-grid">
+        {rows}
+    </div>
+        <Slider {...SliderSettings} />
+    </div>
+    )
+}
 const TemperatureBox = ({temperature = 0, scale = 'K', ChangeTemperature}) =>
-    <div className="box">
+    <div>
         <input value={CurrentTemperatureValue(temperature, scale)}
                onChange={(event) => (
                    ChangeTemperature(Math.round(event.target.value))
@@ -43,7 +62,7 @@ const TemperatureBox = ({temperature = 0, scale = 'K', ChangeTemperature}) =>
     </div>
 
 const Output = ({temperature, scale}) =>
-    <div className="box">
+    <div>
         <h2>Conversions</h2>
         <p>{kelvin(temperature)} K</p>
         <p>{centigrade(temperature)} C</p>
@@ -53,11 +72,11 @@ const Output = ({temperature, scale}) =>
 
 const Scale = ({onchangeScale}) => {
     return (
-        <div className="box">
+        <div>
             <h2>Preferred Units</h2>
             {['K', 'C', 'F', 'R'].map(
                 (x, i) =>
-                    <div className="radio" onClick={event => onchangeScale(event)}>
+                    <div className="radio" key = {i} onClick={event => onchangeScale(event)}>
                         <label>
                             <input key={i}
                                    name="scale"
@@ -95,25 +114,41 @@ class App extends Component {
         const {temperature, scale} = this.state
         const tempboxargs = {temperature, scale, ChangeTemperature}
         const SliderSettings = {
-            min: 0,
-            max: 1000,
+            min: 3,
+            max: 550,
             onChange: ChangeTemperature,
             step: 5,
             editable: true,
             value: temperature
+
         }
         return (
-            <span>
-                <div className="box">
-            <Slider {...SliderSettings} />
+            <div className="App">
+                <div className="wrapper1col">
+                    <div className="box a">
+                        <CurrentTemperatureCurrentScale {...this.state} />
+                    </div>
                 </div>
-            <div className="wrapper2col">
-                <CurrentTemperatureCurrentScale {...this.state} />
-                <TemperatureBox {...tempboxargs} />
-                <Output {...this.state} />
-                <Scale onchangeScale={changeScale}/>
+                <div className="wrapper1col">
+                    <div className="box b">
+                        <TemperatureSlider {...SliderSettings} />
+                        <br />
+                        <TemperatureBox {...tempboxargs} />
+                    </div>
+                    <div className="wrapper2col">
+                        <div className="box e">
+                            <Output {...this.state} />
+                        </div>
+                        <div className="box f">
+                            <currentTemperatureCurrentScale />
+                            <Scale onchangeScale={changeScale}/>
+                        </div>
+                    </div>
+                </div>
             </div>
-                  </span>
+
+
+
         );
     }
 }
