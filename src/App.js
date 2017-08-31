@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import ReactDOM from 'react-dom';
 import Slider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
 import './APP.scss'
@@ -20,8 +19,9 @@ const CurrentTemperatureValue = (temperature, scale) => {
             return reaumur(temperature)
         case 'F':
             return farenheit(temperature)
+        default:
+            return '?'
     }
-    return '?'
 }
 
 
@@ -31,24 +31,24 @@ const CurrentTemperatureCurrentScale = ({temperature, scale}) =>
     </div>
 
 
-
 const TemperatureBox = ({temperature = 0, scale = 'K', ChangeTemperature}) =>
     <div className="box">
         <input value={CurrentTemperatureValue(temperature, scale)}
                onChange={(event) => (
                    ChangeTemperature(Math.round(event.target.value))
                )
-
-               }/> {scale}
+           }/> {scale}
     </div>
 
 const Output = ({temperature, scale}) =>
     <div className="box">
         <h2>Conversions</h2>
-        <p>{kelvin(temperature)} K</p>
-        <p>{centigrade(temperature)} C</p>
-        <p>{farenheit(temperature)} F</p>
-        <p>{reaumur(temperature)} Re</p>
+        <ul>
+            <li>{kelvin(temperature)} K</li>
+            <li>{centigrade(temperature)} C</li>
+            <li>{farenheit(temperature)} F</li>
+            <li>{reaumur(temperature)} Re</li>
+        </ul>
     </div>
 
 const Scale = ({onchangeScale}) => {
