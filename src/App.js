@@ -10,6 +10,7 @@ var farenheit = (x) => Math.round((5.0 / 9.0 * centigrade(x)) - 32)
 var reaumur = (x) => Math.round(4.0 / 5.0 * centigrade(x))
 
 const CurrentTemperatureValue = (temperature, scale) => {
+    // our temperature state is in Kelvin, so always convert for display from K
     switch (scale) {
         case 'K':
             return temperature
@@ -85,7 +86,6 @@ class App extends Component {
 
     render() {
         const changeScale = (event) => {
-            // alert(event.target.value)
             this.setState({'scale': event.target.value})
         }
         const ChangeTemperature = (val) => {
@@ -105,15 +105,15 @@ class App extends Component {
         return (
             <span>
                 <div className="box">
-            <Slider {...SliderSettings} />
+                    <Slider {...SliderSettings} />
                 </div>
-            <div className="wrapper2col">
-                <CurrentTemperatureCurrentScale {...this.state} />
-                <TemperatureBox {...tempboxargs} />
-                <Output {...this.state} />
-                <Scale onchangeScale={changeScale}/>
-            </div>
-                  </span>
+                <div className="wrapper2col">
+                    <CurrentTemperatureCurrentScale {...this.state} />
+                    <TemperatureBox {...tempboxargs} />
+                    <Output {...this.state} />
+                    <Scale onchangeScale={changeScale}/>
+                </div>
+            </span>
         );
     }
 }
